@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_class/data/dummy_data.dart';
 import 'package:flutter_ui_class/models/card_data_model.dart';
+import 'package:flutter_ui_class/screens/add_task_page.dart';
 import 'package:flutter_ui_class/widgets/task_card_widget.dart';
 
 class UiPage extends StatefulWidget {
@@ -43,18 +44,8 @@ class _UiPageState extends State<UiPage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          dummyData.addTaskExternal(
-            CardDataModel(
-              title: "New Task",
-              subtitle: "This is a new task",
-              icon: Icons.add
-            )
-          );
-          setState(
-            (){
-              
-            }
-          );
+          Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => AddTaskPage(  dummyData: dummyData,)));
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.purpleAccent,
