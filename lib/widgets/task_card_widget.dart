@@ -12,7 +12,7 @@ class TaskCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void _handleTap() {
+    void handleTap() {
       print("The card was tapped for $title: $subtitle");
     }
 
@@ -23,8 +23,8 @@ class TaskCardWidget extends StatelessWidget {
         subtitle: Text(subtitle),
         leading: icon != null ? Icon(icon) : Icon(Icons.task),
         trailing: IconButton(
-          onPressed: onTap ?? _handleTap,
-          icon: Icon(Icons.arrow_forward_ios),
+          onPressed: onTap ?? handleTap,
+          icon: Icon(Icons.delete_outline_rounded, color: Colors.redAccent),
         ),
       ),
     );

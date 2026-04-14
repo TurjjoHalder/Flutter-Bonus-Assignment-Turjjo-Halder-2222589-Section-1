@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui_class/data/dummy_data.dart';
 import 'package:flutter_ui_class/models/card_data_model.dart';
+import 'package:flutter_ui_class/models/task_data_model.dart';
 import 'package:flutter_ui_class/providers/task_management_provider.dart';
+import 'package:flutter_ui_class/repository/task_manegment_repo.dart';
 import 'package:flutter_ui_class/utils/validators.dart';
 import 'package:flutter_ui_class/widgets/core_input_field.dart';
 import 'package:flutter_ui_class/widgets/password_input_filed.dart';
@@ -33,6 +34,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   void dispose() {
+    super.dispose();
     _titleController.clear();
     _assignedToController.clear();
     _phoneNumberController.clear();
@@ -71,15 +73,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
 
               const SizedBox(height: 20),
-              CoreInputField(
-                controller: _phoneNumberController,
-                keyboardType: TextInputType.phone,
-                maxLines: 1,
-                labelText: "Phone Number",
-                validator: CustomValidators.validatePhoneNumber,
-              ),
-
-              const SizedBox(height: 20),
               PasswordInputFiled(controller: _passwordController),
 
               const SizedBox(height: 40),
@@ -100,15 +93,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final String taskDetails =
-                  "Assigned to: ${_assignedToController.text} \nPhone: ${_phoneNumberController.text} \nDescription: ${_descriptionController.text} \n \n The task Password is ${_passwordController.text}";
+              // final String taskDetails =
+              //     "Assigned to: ${_assignedToController.text} \nPhone: ${_phoneNumberController.text} \nDescription: ${_descriptionController.text} \n \n The task Password is ${_passwordController.text}";
 
-              taskProvider.addTaskExternal(
-                CardDataModel(
-                  title: _titleController.text,
-                  subtitle: taskDetails,
-                ),
+              // taskProvider.addTaskExternal(
+              //   CardDataModel(
+              //     title: _titleController.text,
+              //     subtitle: taskDetails,
+              //   ),
+              // );
+              final task = TaskDataModel(
+                title: _titleController.text,
+                description: _descriptionController.text,
+                password: _passwordController.text,
+                assignedTo: _assignedToController.text,
               );
+              final repo = TaskManegmentRepo();
+              repo.addTask(task);
 
               Navigator.of(context).pop();
 
