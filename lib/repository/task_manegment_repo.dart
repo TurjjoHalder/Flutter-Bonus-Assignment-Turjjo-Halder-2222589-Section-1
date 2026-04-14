@@ -18,4 +18,14 @@ class TaskManegmentRepo {
       return false;
     }
   }
+
+  Future<bool> deleteTask(String id) async {
+    try {
+      await firestore.collection(AppConstants.taskCollection).doc(id).delete();
+      return true;
+    } catch (e) {
+      print("Error deleting task: $e");
+      return false;
+    }
+  }
 }

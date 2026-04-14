@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui_class/models/card_data_model.dart';
+// import 'package:flutter_ui_class/models/card_data_model.dart';
 import 'package:flutter_ui_class/models/task_data_model.dart';
 import 'package:flutter_ui_class/providers/task_management_provider.dart';
 import 'package:flutter_ui_class/repository/task_manegment_repo.dart';
 import 'package:flutter_ui_class/utils/validators.dart';
 import 'package:flutter_ui_class/widgets/core_input_field.dart';
-import 'package:flutter_ui_class/widgets/password_input_filed.dart';
+// import 'package:flutter_ui_class/widgets/password_input_filed.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -17,9 +17,7 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   final _titleController = TextEditingController();
-  final _assignedToController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
-  final _passwordController = TextEditingController();
+
   final _descriptionController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -36,9 +34,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
   void dispose() {
     super.dispose();
     _titleController.clear();
-    _assignedToController.clear();
-    _phoneNumberController.clear();
-    _passwordController.clear();
     _descriptionController.clear();
   }
 
@@ -63,18 +58,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 validator: CustomValidators.validateTaskTitle,
               ),
 
-              const SizedBox(height: 20),
-              CoreInputField(
-                controller: _assignedToController,
-                keyboardType: TextInputType.text,
-                maxLines: 1,
-                labelText: "Assigned To",
-                validator: CustomValidators.validateAssignedTo,
-              ),
-
-              const SizedBox(height: 20),
-              PasswordInputFiled(controller: _passwordController),
-
               const SizedBox(height: 40),
               CoreInputField(
                 controller: _descriptionController,
@@ -93,20 +76,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
         child: ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              // final String taskDetails =
-              //     "Assigned to: ${_assignedToController.text} \nPhone: ${_phoneNumberController.text} \nDescription: ${_descriptionController.text} \n \n The task Password is ${_passwordController.text}";
-
-              // taskProvider.addTaskExternal(
-              //   CardDataModel(
-              //     title: _titleController.text,
-              //     subtitle: taskDetails,
-              //   ),
-              // );
               final task = TaskDataModel(
+                id: "", // Firestore will generate the ID
                 title: _titleController.text,
                 description: _descriptionController.text,
-                password: _passwordController.text,
-                assignedTo: _assignedToController.text,
+                createdAt: DateTime.now(),
               );
               final repo = TaskManegmentRepo();
               repo.addTask(task);
@@ -116,7 +90,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    "Task added successfully!,",
+                    "Task added successfully!",
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.green,

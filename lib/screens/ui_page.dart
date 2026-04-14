@@ -76,8 +76,11 @@ class _UiPageState extends State<UiPage> {
               final taskData = taskDocs[index];
               return TaskCardWidget(
                 title: taskData['title'],
-                subtitle: taskData['description'],
-                icon: Icons.task, // Placeholder icon
+                description: taskData['description'],
+                icon: Icons.task,
+                id: taskData['id'],
+                createdAt: (taskData['created_at'] as Timestamp).toDate(),
+                // Placeholder icon
               );
             },
           );
